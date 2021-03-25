@@ -7,7 +7,7 @@ class Main {
     	
     	// Employees
     	Employee e1 = new Employee("Pranoti Ubale", "09-06-1992");
-    	Employee e2 = new Employee("Akash Bavale", "21-09-1991");
+    	Employee e2 = new Employee("Akash Bavale", "21-09-1989");
     	
     	// Add Employees
     	em.addEmployee(e1);
@@ -15,6 +15,11 @@ class Main {
     	
     	// Find Employees
     	em.findEmployee(e1.getEmployeeId()); // finds Akash
+    	
+    	// Find Employees greater that age 30
+    	System.out.println("");
+    	System.out.println("All Employees greater than age 30:");
+    	em.findEmployee(30); // finds Akash
     	
     	// List All Employees
     	System.out.println("");

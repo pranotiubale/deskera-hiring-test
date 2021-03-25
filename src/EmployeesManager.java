@@ -5,7 +5,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Year;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
+import java.util.TimeZone;
 
 public class EmployeesManager {
 
@@ -57,7 +59,15 @@ public class EmployeesManager {
 	 * @return
 	 */
 	Collection<Employee> findEmployee(int years) {
-		return this.employees;
+		Collection<Employee> returnEmp = new ArrayList<Employee>(1);;
+		for (Employee employee : this.employees) {
+			if (employee.getAgeInYears()> years) {
+				System.out.println(employee.toString());
+				returnEmp.add(employee);
+			}
+
+		}
+		return returnEmp;
 	}
 
 	/**
@@ -106,7 +116,10 @@ class Employee {
 
 		try {
 			this.birthDate = simpleDateFormat.parse(birthDate).toString();
-			this.ageInYears = - Year.now().getValue() - simpleDateFormat.parse(birthDate).getYear();
+			
+			Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
+			calendar.setTime(simpleDateFormat.parse(birthDate));
+			this.ageInYears = Year.now().getValue() - calendar.get(Calendar.YEAR);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
