@@ -1,100 +1,145 @@
+package deskera;
+
+import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Year;
+import java.util.ArrayList;
 import java.util.Collection;
 
 public class EmployeesManager {
 
-  /**
-   * Implement EmployeesManager to manage all employees of a company
-   *
-   */
+	/**
+	 * Implement EmployeesManager to manage all employees of a company
+	 *
+	 */
+	private Collection<Employee> employees;
 
-  /**
-   * Adds an Employee
-   *
-   * @param employee
-   * @return
-   */
-  String addEmployee(Employee employee) {
-    // TODO - implement this
-    return null;
-  }
+	public EmployeesManager() {
+		this.employees = new ArrayList<Employee>(1);
+	}
 
-  /**
-   * Finds an Employee
-   *
-   * @param employeeId
-   * @return
-   */
-  Employee findEmployee(String employeeId) {
-    // TODO - implement this
-    return null;
-  }
+	/**
+	 * Adds an Employee
+	 *
+	 * @param employee
+	 * @return
+	 */
+	String addEmployee(Employee employee) {
+		// TODO - implement this
+		this.employees.add(employee);
+		return "Employee is added";
+	}
 
-  /**
-   * Find all Employee who are older than X years
-   * @param years
-   * @return
-   */
-  Collection<Employee> findEmployee(int years) {
-    return null;
-  }
+	/**
+	 * Finds an Employee
+	 *
+	 * @param employeeId
+	 * @return
+	 */
+	Employee findEmployee(String employeeId) {
+		// TODO - implement this
+		for (Employee employee : this.employees) {
+			if (employee.getEmployeeId() == employeeId) {
+				System.out.println("Employee found: " + employee.toString());
+				return employee;
+			}
 
-  /**
-   * Removes an employee
-   *
-   * @param employeeId
-   * @return
-   */
-  boolean removeEmployee(String employeeId) {
-    // TODO - implement this
-    return false;
-  }
+		}
+		System.out.print("Employee Not found for emp id " + employeeId);
+		return null;
+	}
 
-  /**
-   * Lists all Employees
-   *
-   * @return
-   */
-  Collection<Employee> listEmployees() {
-    // TODO - implement this
-    return null;
-  }
+	/**
+	 * Find all Employee who are older than X years
+	 * 
+	 * @param years
+	 * @return
+	 */
+	Collection<Employee> findEmployee(int years) {
+		return this.employees;
+	}
+
+	/**
+	 * Removes an employee
+	 *
+	 * @param employeeId
+	 * @return
+	 */
+	boolean removeEmployee(String employeeId) {
+		// TODO - implement this
+		return this.employees.removeIf(emp -> emp.getEmployeeId() == (employeeId));
+	}
+
+	/**
+	 * Lists all Employees
+	 *
+	 * @return
+	 */
+	Collection<Employee> listEmployees() {
+		// TODO - implement this
+		for (Employee employee : this.employees) {
+			System.out.println(employee.toString());
+		}
+		return this.employees;
+	}
 }
 
 class Employee {
 
-  private int ageInYears;
-  private int ageInMonths;
-  private String birthDate;
-  private String firstName;
-  private String lastName;
+	private int ageInYears;
+	private int ageInMonths;
+	private String birthDate;
+	private String firstName;
+	private String lastName;
 
-  private String employeeId;
+	private String employeeId;
 
-  public Employee(String fullName, String birthDate) {
-    // TODO - implement this
-  }
+	public Employee(String fullName, String birthDate) {
+		// TODO - implement this
+		this.firstName = fullName.substring(0, fullName.lastIndexOf(" "));
+		this.lastName = fullName.substring(fullName.lastIndexOf(" ") + 1, fullName.length());
+		this.employeeId = String.valueOf(System.currentTimeMillis());
 
-  public int getAgeInYears() {
-    return ageInYears;
-  }
+		String pattern = "dd-MM-yyyy";
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
 
-  public int getAgeInMonths() {
-    return ageInMonths;
-  }
+		try {
+			this.birthDate = simpleDateFormat.parse(birthDate).toString();
+			this.ageInYears = - Year.now().getValue() - simpleDateFormat.parse(birthDate).getYear();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
-  public String getFirstName() {
-    return firstName;
-  }
+	}
 
-  public String getLastName() {
-    return lastName;
-  }
+	public int getAgeInYears() {
+		return ageInYears;
+	}
 
-  public String getEmployeeId() {
-    return employeeId;
-  }
+	public int getAgeInMonths() {
+		return ageInMonths;
+	}
 
-  public String getBirthDate() {
-    return birthDate;
-  }
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public String getEmployeeId() {
+		return employeeId;
+	}
+
+	public String getBirthDate() {
+		return birthDate;
+	}
+
+	@Override
+	public String toString() {
+		return String.format(" Name: " + firstName + " " + lastName);
+	}
 }
